@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+pushd ${HOME} >/dev/null
+
+# ${HOME}/.gradle is the gradle cache
+echo -n "save"
+tar cf - ./.gradle
+
+popd >/dev/null
+

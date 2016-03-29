@@ -1,0 +1,42 @@
+#!/bin/bash -e
+#
+# S2I assemble script for the 'nginx-centos7' image.
+# The 'assemble' script builds your application source so that it is ready to run.
+#
+# For more information refer to the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+echo -n "assemble"
+function restore_saved_artifacts() {
+  if [ "$(ls /tmp/s2i/artifacts/ 2>/dev/null)" ]; then
+    echo -n "Restoring saved artifacts from prior build..."
+    mv /tmp/s2i/artifacts/* $HOME/.
+  fi
+}
+
+
+if [[ "$1" == "-h" ]]; then
+	# If the 'nginx-centos7' assemble script is executed with '-h' flag,
+	# print the usage.
+	exec /usr/libexec/s2i/usage
+fi
+export GRADLE_USER_HOME=${HOME}/.gradle
+
+git clone https://github.com/ceskaexpedice/kramerius
+
+restore_saved_artifacts
+/usr/local/bin/gradle  patchDistTar -p kramerius
+# Restore artifacts from the previous build (if they exist).
+# We set them here just for show, but you will need to set this up with your logic
+# according to the application directory that you chose.
+#if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
+#  echo "---> Restoring build artifacts..."
+#  mv /tmp/artifacts/* /usr/share/nginx/html/
+#fi
+# Override our default nginx index.html file.
+# This is what we consider in this example `installing the application`
+# here you can go ahead an replace this with the actual building of python modules,
+# bundle install, and anything else you need.
+#echo "---> Building and installing application from source..."
+#cp -Rf /index.html /usr/share/nginx/html/index.html
