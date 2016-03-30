@@ -8,35 +8,30 @@
 #
 
 echo -n "assemble"
-function restore_saved_artifacts() {
-  if [ "$(ls /tmp/s2i/artifacts/ 2>/dev/null)" ]; then
-    echo -n "Restoring saved artifacts from prior build..."
-    mv /tmp/s2i/artifacts/* $HOME/.
-  fi
-}
+#function restore_saved_artifacts() {
+#  if [ "$(ls /tmp/s2i/artifacts/ 2>/dev/null)" ]; then
+#    echo -n "Restoring saved artifacts from prior build..."
+#    mv /tmp/s2i/artifacts/* $HOME/.
+#  fi
+#}
 
-
+# Source code provided to S2I is at ${HOME}
 if [[ "$1" == "-h" ]]; then
-	# If the 'nginx-centos7' assemble script is executed with '-h' flag,
-	# print the usage.
 	exec /usr/libexec/s2i/usage
 fi
 export GRADLE_USER_HOME=${HOME}/.gradle
 
-git clone https://github.com/ceskaexpedice/kramerius
+LOCAL_SOURCE_DIR=/tmp/src
 
-restore_saved_artifacts
-/usr/local/bin/gradle  patchDistTar -p kramerius
-# Restore artifacts from the previous build (if they exist).
-# We set them here just for show, but you will need to set this up with your logic
-# according to the application directory that you chose.
-#if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
-#  echo "---> Restoring build artifacts..."
-#  mv /tmp/artifacts/* /usr/share/nginx/html/
-#fi
-# Override our default nginx index.html file.
-# This is what we consider in this example `installing the application`
-# here you can go ahead an replace this with the actual building of python modules,
-# bundle install, and anything else you need.
-#echo "---> Building and installing application from source..."
-#cp -Rf /index.html /usr/share/nginx/html/index.html
+DEPLOY_DIR=$CATALINA_HOME/webapps/
+
+pushd $LOCAL_SOURCE_DIR &> /dev/null
+/usr/local/gradle-2.9/bin/gradle patchDistTar -exclude-task gitcall -exclude-task infofile
+mv ./search/build/libs/search.war $DEPLOY_DIR
+mv ./client/build/libs/client.war $DEPLOY_DIR
+mv ./security-core/build/libs/security-core.jar $CATALINA_HOME/libs
+
+
+#restore_saved_artifacts
+
+
