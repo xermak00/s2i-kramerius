@@ -29,7 +29,7 @@ pushd $LOCAL_SOURCE_DIR &> /dev/null
 /usr/local/gradle-2.9/bin/gradle patchDistTar -exclude-task gitcall -exclude-task infofile
 mv ./search/build/libs/search.war $DEPLOY_DIR
 mv ./client/build/libs/client.war $DEPLOY_DIR
-mv ./security-core/build/libs/security-core.jar $CATALINA_HOME/libs
+mv ./security-core/build/libs/security-core.jar $CATALINA_HOME/lib/
 
 
 #restore_saved_artifacts

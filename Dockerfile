@@ -57,6 +57,14 @@ RUN set -x \
 RUN curl -sL "$JDBC_DRIVER_DOWNLOAD_URL" -o $CATALINA_HOME/lib/postgresql-9.3-1103.jdbc4.jar
 ADD search.xml $CATALINA_HOME/conf/Catalina/localhost/search.xml
 
+# Kramerius auth
+ENV JAAS_CONFIG=$CATALINA_HOME/conf/jaas.config
+ADD jaas.conf $CATALINA_HOME/conf/jaas.config
+ENV JAVA_OPTS -Djava.awt.headless=true -Dfile.encoding=UTF8  -Djava.security.auth.login.config=$JAAS_CONFIG
+
+ADD rewrite.config $CATALINA_HOME/conf/Catalina/localhost/
+ADD server.xml $CATALINA_HOME/conf/
+
 COPY  ["run", "assemble", "save-artifacts", "usage", "/usr/libexec/s2i/"]
 
 RUN chown -R 1001:0 $HOME $CATALINA_HOME
