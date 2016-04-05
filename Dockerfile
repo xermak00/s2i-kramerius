@@ -63,7 +63,7 @@ ADD jaas.conf $CATALINA_HOME/conf/jaas.config
 ENV JAVA_OPTS -Djava.awt.headless=true -Dfile.encoding=UTF8  -Djava.security.auth.login.config=$JAAS_CONFIG
 
 ADD rewrite.config $CATALINA_HOME/conf/Catalina/localhost/
-# ADD server.xml $CATALINA_HOME/conf/
+ADD server.xml $CATALINA_HOME/conf/
 
 COPY  ["run", "assemble", "save-artifacts", "usage", "/usr/libexec/s2i/"]
 
