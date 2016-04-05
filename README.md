@@ -17,7 +17,7 @@ Usage
 ---------------
 To build Kramerius from your own repo using standalone S2I and then run the resulting image with Docker execute:
 ```
-$ s2i build https://github.com/MartinRumanek/kramerius.git kramerius-builder kramerius
+$ s2i build --incremental=true https://github.com/MartinRumanek/kramerius.git kramerius-builder kramerius
 $ docker-compose up -d
 ```
 

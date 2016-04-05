@@ -1,37 +1,30 @@
 #!/bin/bash -e
-#
-# S2I assemble script for the 'nginx-centos7' image.
-# The 'assemble' script builds your application source so that it is ready to run.
-#
-# For more information refer to the documentation:
-#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
-#
 
-echo -n "assemble"
-#function restore_saved_artifacts() {
-#  if [ "$(ls /tmp/s2i/artifacts/ 2>/dev/null)" ]; then
-#    echo -n "Restoring saved artifacts from prior build..."
-#    mv /tmp/s2i/artifacts/* $HOME/.
-#  fi
-#}
+
+function restore_saved_artifacts() {
+  if [ "$(ls /tmp/artifacts/.gradle 2>/dev/null)" ]; then
+    echo  "Restoring saved artifacts from prior build..."
+    mv /tmp/artifacts/.gradle $HOME/.gradle
+  fi
+}
 
 # Source code provided to S2I is at ${HOME}
 if [[ "$1" == "-h" ]]; then
 	exec /usr/libexec/s2i/usage
 fi
+
 export GRADLE_USER_HOME=${HOME}/.gradle
 
 LOCAL_SOURCE_DIR=/tmp/src
 
 DEPLOY_DIR=$CATALINA_HOME/webapps/
 
+restore_saved_artifacts
+
 pushd $LOCAL_SOURCE_DIR &> /dev/null
 /usr/local/gradle-2.9/bin/gradle patchDistTar -exclude-task gitcall -exclude-task infofile
+
 mv ./search/build/libs/search.war $DEPLOY_DIR
 mv ./client/build/libs/client.war $DEPLOY_DIR
 mv ./security-core/build/libs/security-core.jar $CATALINA_HOME/lib/
-
-
-#restore_saved_artifacts
-
 

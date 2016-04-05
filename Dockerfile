@@ -16,7 +16,7 @@ LABEL io.k8s.description="Kramerius" \
     io.openshift.tags="builder,kramerius" \
     io.openshift.s2i.scripts-url="image:///usr/libexec/s2i"
 
-RUN INSTALL_PKGS="tar java-1.8.0-openjdk java-1.8.0-openjdk-devel tree" && \
+RUN INSTALL_PKGS="tar java-1.8.0-openjdk java-1.8.0-openjdk-devel" && \
     yum install -y --enablerepo=centosplus $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y && \
@@ -63,7 +63,7 @@ ADD jaas.conf $CATALINA_HOME/conf/jaas.config
 ENV JAVA_OPTS -Djava.awt.headless=true -Dfile.encoding=UTF8  -Djava.security.auth.login.config=$JAAS_CONFIG
 
 ADD rewrite.config $CATALINA_HOME/conf/Catalina/localhost/
-ADD server.xml $CATALINA_HOME/conf/
+# ADD server.xml $CATALINA_HOME/conf/
 
 COPY  ["run", "assemble", "save-artifacts", "usage", "/usr/libexec/s2i/"]
 
