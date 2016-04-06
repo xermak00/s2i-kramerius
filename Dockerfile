@@ -69,6 +69,9 @@ COPY  ["run", "assemble", "save-artifacts", "usage", "/usr/libexec/s2i/"]
 
 RUN chown -R 1001:0 $HOME $CATALINA_HOME
 
+# TODO remove
+RUN chmod ugo+rwx $HOME $CATALINA_HOME
+
 USER 1001
 EXPOSE 8080
 
