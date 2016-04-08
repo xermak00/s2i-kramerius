@@ -1,7 +1,7 @@
 FROM openshift/base-centos7
 
 MAINTAINER Martin Rumanek <martin@rumanek.cz>
-ENV GRADLE_VERSION=2.9
+ENV GRADLE_VERSION=2.12
 ENV TOMCAT_MAJOR 8
 ENV TOMCAT_VERSION 8.0.33
 ENV CATALINA_HOME /usr/local/tomcat
@@ -67,10 +67,12 @@ ADD server.xml $CATALINA_HOME/conf/
 
 COPY  ["run", "assemble", "save-artifacts", "usage", "/usr/libexec/s2i/"]
 
+RUN wget --no-verbose https://github.com/ceskaexpedice/kramerius/releases/download/v5.1.0/Installation-5.1.zip && \
+    unzip -j Installation-5.1.zip Installation-5.1/fedora/* -d /tmp/fedora
+
 RUN chown -R 1001:0 $HOME $CATALINA_HOME
 
-# TODO remove
-RUN chmod ugo+rwx $HOME $CATALINA_HOME
+RUN chmod ug+rwx $HOME $CATALINA_HOME
 
 USER 1001
 EXPOSE 8080
