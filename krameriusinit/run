@@ -1,0 +1,11 @@
+#!/bin/bash -e
+cp -rf /tmp/foxmlinit/*  /opt/app-root/src/.kramerius4/import/
+
+# TODO
+sleep 24
+
+curl -u krameriusAdmin:krameriusAdmin -H "Content-Type: application/json" -d \
+'{"mapping":{"importDirectory":"/opt/app-root/src/.kramerius4/import/","startIndexer":"true","updateExisting":"true"}}' \
+ -X POST $krameriusHost/api/v4.6/processes?def=parametrizedimport
+
+

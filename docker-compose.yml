@@ -1,10 +1,23 @@
+krameriusinit:
+  build: krameriusinit
+  environment:
+    - krameriusHost=http://kramerius:8080/search
+  volumes:
+    - /tmp/k5init:/opt/app-root/src/.kramerius4/import
+  links:
+    - kramerius:kramerius
+kramerius-builder:
+  build: .
 kramerius:
   image: kramerius
   ports:
     - "8080:8080"
   links:
+    - fcrepo:fcrepo
     - krameriusPostgres:krameriusPostgres
     - solr:solr
+  volumes:
+    - /tmp/k5init:/opt/app-root/src/.kramerius4/import
   environment:
     - fedoraHost=http://fcrepo:8080/fedora
     - fedoraUser=fedoraAdmin
@@ -17,24 +30,24 @@ kramerius:
     - driver.fedora.mpt.jdbc.password=fedoraAdmin
     - solrHost=http://solr:8080/solr
 krameriusPostgres:
-  image: "postgres:9.3"
+  image: "postgres"
   environment:
     - POSTGRES_USER=fedoraAdmin
     - POSTGRES_PASSWORD=fedoraAdmin
-    - POSTGRES_DB=kramerius4
+    - POSTGRES_DB=kramerius
 fcrepo:
   image: moravianlibrary/fcrepo:3.6.2
   links:
     - fedoraPostgres:fedoraPostgres
     - riTriplesPostgres:riTriplesPostgres
 fedoraPostgres:
-  image: "postgres:9.3"
+  image: "postgres"
   environment:
     - POSTGRES_USER=fedoraAdmin
     - POSTGRES_PASSWORD=fedoraAdmin
     - POSTGRES_DB=fedora3
 riTriplesPostgres:
-  image: "postgres:9.3"
+  image: "postgres"
   environment:
     - POSTGRES_USER=fedoraAdmin
     - POSTGRES_PASSWORD=fedoraAdmin
