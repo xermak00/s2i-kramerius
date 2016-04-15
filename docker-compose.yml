@@ -1,56 +1,65 @@
-krameriusinit:
-  build: krameriusinit
-  environment:
-    - krameriusHost=http://kramerius:8080/search
-  volumes:
-    - /tmp/k5init:/opt/app-root/src/.kramerius4/import
-  links:
-    - kramerius:kramerius
-kramerius-builder:
-  build: .
-kramerius:
-  image: kramerius
-  ports:
-    - "8080:8080"
-  links:
-    - fcrepo:fcrepo
-    - krameriusPostgres:krameriusPostgres
-    - solr:solr
-  volumes:
-    - /tmp/k5init:/opt/app-root/src/.kramerius4/import
-  environment:
-    - fedoraHost=http://fcrepo:8080/fedora
-    - fedoraUser=fedoraAdmin
-    - fedoraPass=fedoraAdmin
-    - fedora3.connectionURL=jdbc:postgresql://fedoraPostgres:5432/fedora3
-    - fedora3.connectionUser=fedoraAdmin
-    - fedora3.connectionPass=fedoraAdmin
-    - driver.fedora.mpt.jdbc.url=jdbc:postgresql://riTriplesPostgres:5432/riTriples
-    - driver.fedora.mpt.jdbc.user=fedoraAdmin
-    - driver.fedora.mpt.jdbc.password=fedoraAdmin
-    - solrHost=http://solr:8080/solr
-krameriusPostgres:
-  image: "postgres"
-  environment:
-    - POSTGRES_USER=fedoraAdmin
-    - POSTGRES_PASSWORD=fedoraAdmin
-    - POSTGRES_DB=kramerius
-fcrepo:
-  image: moravianlibrary/fcrepo:3.6.2
-  links:
-    - fedoraPostgres:fedoraPostgres
-    - riTriplesPostgres:riTriplesPostgres
-fedoraPostgres:
-  image: "postgres"
-  environment:
-    - POSTGRES_USER=fedoraAdmin
-    - POSTGRES_PASSWORD=fedoraAdmin
-    - POSTGRES_DB=fedora3
-riTriplesPostgres:
-  image: "postgres"
-  environment:
-    - POSTGRES_USER=fedoraAdmin
-    - POSTGRES_PASSWORD=fedoraAdmin
-    - POSTGRES_DB=riTriples
-solr:
-  image: moravianlibrary/solr
+version: "2"
+services:
+  krameriusinit:
+    build: krameriusinit
+    environment:
+      - krameriusHost=http://kramerius:8080/search
+    volumes:
+      - /tmp/k5init:/opt/app-root/src/.kramerius4/import
+    networks:
+      - kramerius
+  kramerius:
+    image: kramerius
+    ports:
+      - "8080:8080"
+    volumes:
+      - /tmp/k5init:/opt/app-root/src/.kramerius4/import
+    networks:
+      - kramerius
+    environment:
+      - fedoraHost=http://fcrepo:8080/fedora
+      - fedoraUser=fedoraAdmin
+      - fedoraPass=fedoraAdmin
+      - fedora3.connectionURL=jdbc:postgresql://fedoraPostgres:5432/fedora3
+      - fedora3.connectionUser=fedoraAdmin
+      - fedora3.connectionPass=fedoraAdmin
+      - driver.fedora.mpt.jdbc.url=jdbc:postgresql://riTriplesPostgres:5432/riTriples
+      - driver.fedora.mpt.jdbc.user=fedoraAdmin
+      - driver.fedora.mpt.jdbc.password=fedoraAdmin
+      - solrHost=http://solr:8080/solr
+      - applicationUrl=http://kramerius:8080/search
+  krameriusPostgres:
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=fedoraAdmin
+      - POSTGRES_PASSWORD=fedoraAdmin
+      - POSTGRES_DB=kramerius
+    networks:
+      - kramerius
+  fcrepo:
+    image: moravianlibrary/fcrepo:3.8.1
+    networks:
+      - kramerius
+  fedoraPostgres:
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=fedoraAdmin
+      - POSTGRES_PASSWORD=fedoraAdmin
+      - POSTGRES_DB=fedora3
+    networks:
+      - kramerius
+  riTriplesPostgres:
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=fedoraAdmin
+      - POSTGRES_PASSWORD=fedoraAdmin
+      - POSTGRES_DB=riTriples
+    networks:
+      - kramerius
+  solr:
+    image: moravianlibrary/solr
+    networks:
+      - kramerius
+networks:
+  kramerius:
+    driver: bridge
