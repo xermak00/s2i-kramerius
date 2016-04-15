@@ -20,12 +20,12 @@ services:
       - fedoraHost=http://fcrepo:8080/fedora
       - fedoraUser=fedoraAdmin
       - fedoraPass=fedoraAdmin
-      - fedora3.connectionURL=jdbc:postgresql://fedoraPostgres:5432/fedora3
-      - fedora3.connectionUser=fedoraAdmin
-      - fedora3.connectionPass=fedoraAdmin
-      - driver.fedora.mpt.jdbc.url=jdbc:postgresql://riTriplesPostgres:5432/riTriples
-      - driver.fedora.mpt.jdbc.user=fedoraAdmin
-      - driver.fedora.mpt.jdbc.password=fedoraAdmin
+      - fedora3_connectionURL=jdbc:postgresql://fedoraPostgres:5432/fedora3
+      - fedora3_connectionUser=fedoraAdmin
+      - fedora3_connectionPass=fedoraAdmin
+      - driver_fedora_mpt_jdbc_url=jdbc:postgresql://riTriplesPostgres:5432/riTriples
+      - driver_fedora_mpt_jdbc_user=fedoraAdmin
+      - driver_fedora_mpt_jdbc_password=fedoraAdmin
       - solrHost=http://solr:8080/solr
       - applicationUrl=http://kramerius:8080/search
   krameriusPostgres:
