@@ -72,7 +72,7 @@ RUN wget --no-verbose https://github.com/ceskaexpedice/kramerius/releases/downlo
 
 RUN chown -R 1001:0 $HOME $CATALINA_HOME
 
-RUN chmod ug+rwx $HOME $CATALINA_HOME
+RUN chmod ugo+rwx $HOME $CATALINA_HOME
 
 USER 1001
 EXPOSE 8080
