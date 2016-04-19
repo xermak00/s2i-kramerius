@@ -23,6 +23,9 @@ services:
       - fedora3_connectionURL=jdbc:postgresql://fedoraPostgres:5432/fedora3
       - fedora3_connectionUser=fedoraAdmin
       - fedora3_connectionPass=fedoraAdmin
+      - kramerius_connectionURL=jdbc:postgresql://krameriusPostgres:5432/kramerius
+      - kramerius_connectionUser=fedoraAdmin
+      - kramerius_connectionPass=fedoraAdmin
       - driver_fedora_mpt_jdbc_url=jdbc:postgresql://riTriplesPostgres:5432/riTriples
       - driver_fedora_mpt_jdbc_user=fedoraAdmin
       - driver_fedora_mpt_jdbc_password=fedoraAdmin

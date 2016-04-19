@@ -11,7 +11,7 @@ while [ ${count} -lt 64 ]
 echo "Wait for ${fedoraHost}"
 do
   if curl --head --silent --fail --location --max-time 2 ${fedoraHost} > /dev/null; then
-    echo "Fedora is running..."
+    echo -n "Fedora is running..."
     return 0
   fi
   sleep 1
@@ -32,7 +32,13 @@ if isFedoraUp; then
       ingest2fedora $MODEL
   done
 else 
-  echo "model not ingested"
+  echo -n "model not ingested"
+fi
+
+if [ -n "$kramerius_connectionURL" ] && [ -n "$kramerius_connectionUser" ] && [ -n "$kramerius_connectionPass" ] ; then
+  sed -i -e "s|\${kramerius_connectionURL}|$kramerius_connectionURL|; s|\${kramerius_connectionUser}|$kramerius_connectionUser|; s|\${kramerius_connectionPass}|$kramerius_connectionPass|;" \
+     "$CATALINA_HOME/conf/Catalina/localhost/search.xml";
+  echo -n "connection to postgres updated"
 fi
 
 exec $CATALINA_HOME/bin/catalina.sh run
