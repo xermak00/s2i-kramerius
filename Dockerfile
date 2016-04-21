@@ -70,11 +70,16 @@ COPY  ["run", "assemble", "save-artifacts", "usage", "/usr/libexec/s2i/"]
 RUN wget --no-verbose https://github.com/ceskaexpedice/kramerius/releases/download/v5.1.0/Installation-5.1.zip && \
     unzip -j Installation-5.1.zip Installation-5.1/fedora/* -d /tmp/fedora
 
-RUN chown -R 1001:0 $HOME $CATALINA_HOME
+ENV TOMCAT_USER tomcat
+ENV TOMCAT_UID 8983
+RUN groupadd -r $TOMCAT_USER && \
+    useradd -r -u $TOMCAT_UID -g $TOMCAT_USER $TOMCAT_USER
+
+RUN chown -R $TOMCAT_USER:$TOMCAT_USER $HOME $CATALINA_HOME
 
 RUN chmod -R ugo+rwx $HOME $CATALINA_HOME
 
-USER 1001
+USER $TOMCAT_USER
 EXPOSE 8080
 
 CMD ["/usr/libexec/s2i/usage"]
