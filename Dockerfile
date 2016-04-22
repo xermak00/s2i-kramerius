@@ -60,7 +60,7 @@ ADD search.xml $CATALINA_HOME/conf/Catalina/localhost/search.xml
 # Kramerius auth
 ENV JAAS_CONFIG=$CATALINA_HOME/conf/jaas.config
 ADD jaas.conf $CATALINA_HOME/conf/jaas.config
-ENV JAVA_OPTS -Djava.awt.headless=true -Dfile.encoding=UTF8  -Djava.security.auth.login.config=$JAAS_CONFIG
+ENV JAVA_OPTS -Djava.awt.headless=true -Dfile.encoding=UTF8  -Djava.security.auth.login.config=$JAAS_CONFIG -Duser.home=$HOME
 
 ADD rewrite.config $CATALINA_HOME/conf/Catalina/localhost/
 ADD server.xml $CATALINA_HOME/conf/
