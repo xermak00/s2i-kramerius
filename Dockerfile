@@ -75,6 +75,7 @@ ENV TOMCAT_UID 8983
 RUN groupadd -r $TOMCAT_USER && \
     useradd -r -u $TOMCAT_UID -g $TOMCAT_USER $TOMCAT_USER -d $HOME
 
+RUN mkdir -p $HOME/.kramerius4/lp/
 RUN chown -R $TOMCAT_USER:$TOMCAT_USER $HOME $CATALINA_HOME
 
 RUN chmod -R ugo+rwx $HOME $CATALINA_HOME
