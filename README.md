@@ -9,7 +9,8 @@ Installation
 ---------------
 To build a Kramerius builder image from scratch, run:
 ```
-$ git clone https://github.com/moravianlibrary/sti-kramerius.git
+$ git clone https://github.com/moravianlibrary/s2i-kramerius.git
+$ cd s2i-kramerius
 $ docker build -t kramerius-builder .
 ```
 
@@ -17,7 +18,8 @@ Usage
 ---------------
 To build Kramerius from your own repo using standalone S2I and then run the resulting image with Docker execute:
 ```
-$ s2i build --incremental=true https://github.com/MartinRumanek/kramerius.git kramerius-builder kramerius
+# use --ref to specify branch/tag
+$ s2i build --incremental=true --ref=openshift https://github.com/moravianlibrary/kramerius.git kramerius-builder kramerius
 $ docker-compose up -d
 ```
 
