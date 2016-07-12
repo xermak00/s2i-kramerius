@@ -56,6 +56,7 @@ RUN set -x \
 
 RUN curl -sL "$JDBC_DRIVER_DOWNLOAD_URL" -o $CATALINA_HOME/lib/postgresql-9.4.1208.jar
 ADD search.xml $CATALINA_HOME/conf/Catalina/localhost/search.xml
+ADD web.xml $CATALINA_HOME/conf/web.xml
 
 # Kramerius auth
 ENV JAAS_CONFIG=$CATALINA_HOME/conf/jaas.config
