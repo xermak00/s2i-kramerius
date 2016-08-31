@@ -16,7 +16,7 @@ LABEL io.k8s.description="Kramerius" \
     io.openshift.tags="builder,kramerius" \
     io.openshift.s2i.scripts-url="image:///usr/libexec/s2i"
 
-RUN INSTALL_PKGS="tar java-1.8.0-openjdk java-1.8.0-openjdk-devel" && \
+RUN INSTALL_PKGS="tar java-1.8.0-openjdk java-1.8.0-openjdk-devel zip" && \
     yum install -y --enablerepo=centosplus $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y && \
@@ -57,6 +57,8 @@ RUN set -x \
 RUN curl -sL "$JDBC_DRIVER_DOWNLOAD_URL" -o $CATALINA_HOME/lib/postgresql-9.4.1208.jar
 ADD search.xml $CATALINA_HOME/conf/Catalina/localhost/search.xml
 ADD web.xml $CATALINA_HOME/conf/web.xml
+
+ADD modelfilter.jar .
 
 # Kramerius auth
 ENV JAAS_CONFIG=$CATALINA_HOME/conf/jaas.config
