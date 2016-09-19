@@ -3,7 +3,7 @@ FROM openshift/base-centos7
 MAINTAINER Martin Rumanek <martin@rumanek.cz>
 ENV GRADLE_VERSION=2.12
 ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.5.4
+ENV TOMCAT_VERSION 8.5.5
 ENV CATALINA_HOME /usr/local/tomcat
 ENV JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
@@ -55,6 +55,7 @@ RUN set -x \
 	&& rm tomcat.tar.gz*
 
 RUN curl -sL "$JDBC_DRIVER_DOWNLOAD_URL" -o $CATALINA_HOME/lib/postgresql-9.4.1208.jar
+ADD context.xml $CATALINA_HOME/conf/context.xml
 ADD search.xml $CATALINA_HOME/conf/Catalina/localhost/search.xml
 ADD web.xml $CATALINA_HOME/conf/web.xml
 

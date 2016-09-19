@@ -21,8 +21,12 @@ DEPLOY_DIR=$CATALINA_HOME/webapps/
 
 restore_saved_artifacts
 
+
 pushd $LOCAL_SOURCE_DIR &> /dev/null
-gradle patchDistTar --info -exclude-task gitcall -exclude-task infofile
+
+gradle :search:clean :search:build
+gradle :client:clean :client:build
+#gradle build distZip --info -exclude-task gitcall -exclude-task infofile
 
 mv ./search/build/libs/search.war $DEPLOY_DIR
 mv ./client/build/libs/client.war $DEPLOY_DIR

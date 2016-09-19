@@ -19,7 +19,7 @@ Usage
 To build Kramerius from your own repo using standalone S2I and then run the resulting image with Docker execute:
 ```
 # use --ref to specify branch/tag
-$ s2i build --incremental=true --ref=openshift https://github.com/moravianlibrary/kramerius.git kramerius-builder kramerius
+$ s2i build --incremental=true --exclude="" https://github.com/ceskaexpedice/kramerius.git kramerius-builder moravianlibrary/kramerius_s2i
 $ docker-compose up -d
 ```
 
