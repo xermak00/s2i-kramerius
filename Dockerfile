@@ -55,6 +55,7 @@ RUN set -x \
 	&& rm tomcat.tar.gz*
 
 RUN curl -sL "$JDBC_DRIVER_DOWNLOAD_URL" -o $CATALINA_HOME/lib/postgresql-9.4.1208.jar
+RUN curl -sL http://ftp-devel.mzk.cz/kramerius/master/kramerius/rightseditor.war -o $CATALINA_HOME/webapps/rightseditor.war
 ADD context.xml $CATALINA_HOME/conf/context.xml
 ADD search.xml $CATALINA_HOME/conf/Catalina/localhost/search.xml
 ADD web.xml $CATALINA_HOME/conf/web.xml
