@@ -56,6 +56,7 @@ RUN set -x \
 
 RUN curl -sL "$JDBC_DRIVER_DOWNLOAD_URL" -o $CATALINA_HOME/lib/postgresql-9.4.1208.jar
 RUN curl -sL http://ftp-devel.mzk.cz/kramerius/master/kramerius/rightseditor.war -o $CATALINA_HOME/webapps/rightseditor.war
+RUN curl -sL http://ftp-devel.mzk.cz/kramerius/master/kramerius/editor.war -o $CATALINA_HOME/webapps/editor.war
 ADD context.xml $CATALINA_HOME/conf/context.xml
 ADD search.xml $CATALINA_HOME/conf/Catalina/localhost/search.xml
 ADD web.xml $CATALINA_HOME/conf/web.xml
@@ -87,5 +88,7 @@ RUN chmod -R ugo+rwx $HOME $CATALINA_HOME
 
 USER 8983
 EXPOSE 8080
+
+ENV LANG en_US.UTF-8
 
 CMD ["/usr/libexec/s2i/usage"]
