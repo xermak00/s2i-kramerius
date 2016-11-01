@@ -3,11 +3,11 @@ FROM openshift/base-centos7
 MAINTAINER Martin Rumanek <martin@rumanek.cz>
 ENV GRADLE_VERSION=2.12
 ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.5.5
+ENV TOMCAT_VERSION 8.0.38
 ENV CATALINA_HOME /usr/local/tomcat
 ENV JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
-ENV JDBC_DRIVER_DOWNLOAD_URL https://jdbc.postgresql.org/download/postgresql-9.4.1208.jar
+ENV JDBC_DRIVER_DOWNLOAD_URL https://jdbc.postgresql.org/download/postgresql-9.4.1211.jar
 
 # Set the labels that are used for Openshift to describe the builder image.
 LABEL io.k8s.description="Kramerius" \
@@ -16,7 +16,7 @@ LABEL io.k8s.description="Kramerius" \
     io.openshift.tags="builder,kramerius" \
     io.openshift.s2i.scripts-url="image:///usr/libexec/s2i"
 
-RUN INSTALL_PKGS="tar java-1.8.0-openjdk java-1.8.0-openjdk-devel zip" && \
+RUN INSTALL_PKGS="tar zip" && \
     yum install -y --enablerepo=centosplus $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y && \
@@ -25,6 +25,12 @@ RUN INSTALL_PKGS="tar java-1.8.0-openjdk java-1.8.0-openjdk-devel zip" && \
     rm gradle.zip
 
 RUN  ln -sf /usr/local/gradle-$GRADLE_VERSION/bin/gradle /usr/local/bin/gradle
+
+RUN curl -sL --no-verbose http://ftp-devel.mzk.cz/jre/jdk-8u101-linux-x64.tar.gz -o /tmp/java.tar.gz
+RUN mkdir -p /usr/local/java
+ENV JAVA_HOME /usr/local/java/jdk1.8.0_101
+RUN tar xzf /tmp/java.tar.gz --directory=/usr/local/java
+ENV PATH $JAVA_HOME/bin:$PATH
 
 WORKDIR $CATALINA_HOME
 
