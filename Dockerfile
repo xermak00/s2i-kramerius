@@ -3,11 +3,11 @@ FROM openshift/base-centos7
 MAINTAINER Martin Rumanek <martin@rumanek.cz>
 ENV GRADLE_VERSION=2.12
 ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.0.38
+ENV TOMCAT_VERSION 8.0.39
 ENV CATALINA_HOME /usr/local/tomcat
 ENV JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
-ENV JDBC_DRIVER_DOWNLOAD_URL https://jdbc.postgresql.org/download/postgresql-9.4.1211.jar
+ENV JDBC_DRIVER_DOWNLOAD_URL https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar
 
 # Set the labels that are used for Openshift to describe the builder image.
 LABEL io.k8s.description="Kramerius" \
@@ -26,10 +26,11 @@ RUN INSTALL_PKGS="tar zip" && \
 
 RUN  ln -sf /usr/local/gradle-$GRADLE_VERSION/bin/gradle /usr/local/bin/gradle
 
-RUN curl -sL --no-verbose http://ftp-devel.mzk.cz/jre/jdk-8u101-linux-x64.tar.gz -o /tmp/java.tar.gz
-RUN mkdir -p /usr/local/java
 ENV JAVA_HOME /usr/local/java/jdk1.8.0_101
-RUN tar xzf /tmp/java.tar.gz --directory=/usr/local/java
+RUN curl -sL --no-verbose http://ftp-devel.mzk.cz/jre/jdk-8u101-linux-x64.tar.gz -o /tmp/java.tar.gz && \
+    mkdir -p /usr/local/java && \
+    tar xzf /tmp/java.tar.gz --directory=/usr/local/java && \
+    rm /tmp/java.tar.gz
 ENV PATH $JAVA_HOME/bin:$PATH
 
 WORKDIR $CATALINA_HOME
@@ -55,7 +56,7 @@ RUN set -ex \
 RUN set -x \
 	&& curl -fSL "$TOMCAT_TGZ_URL" -o tomcat.tar.gz \
 	&& curl -fSL "$TOMCAT_TGZ_URL.asc" -o tomcat.tar.gz.asc \
-	&& gpg --batch --verify tomcat.tar.gz.asc tomcat.tar.gz \
+#	&& gpg --batch --verify tomcat.tar.gz.asc tomcat.tar.gz \
 	&& tar -xvf tomcat.tar.gz --strip-components=1 \
 	&& rm bin/*.bat \
 	&& rm tomcat.tar.gz*
