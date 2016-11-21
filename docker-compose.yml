@@ -7,7 +7,7 @@ services:
     volumes:
       - /tmp/k5init:/opt/app-root/src/.kramerius4/import
   kramerius:
-    image: moravianlibrary/kramerius_s2i
+    image: moravianlibrary/kramerius
     ports:
       - "80:8080"
     volumes:
