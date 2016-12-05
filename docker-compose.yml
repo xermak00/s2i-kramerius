@@ -26,7 +26,7 @@ services:
       - driver_fedora_mpt_jdbc_user=fedoraAdmin
       - driver_fedora_mpt_jdbc_password=fedoraAdmin
       - solrHost=http://solr:8080/solr
-      - applicationUrl=http://kramerius:8080/search
+      - applicationUrl=http://localhost:8080/search
   krameriusPostgres:
     image: "postgres:9.6"
     environment:
