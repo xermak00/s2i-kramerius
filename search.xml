@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
   <Realm className="org.apache.catalina.realm.JAASRealm" appName="search" roleClassNames="cz.incad.kramerius.security.jaas.K4RolePrincipal" debug="99"/>
-  <Resource name="jdbc/kramerius4" auth="Container" type="javax.sql.DataSource" initialSize="3" maxTotal="100"
-            maxIdle="30" maxWaitMillis="10000" username="${kramerius_connectionUser}" password="${kramerius_connectionPass}"
-            driverClassName="org.postgresql.Driver" url="${kramerius_connectionURL}"/>
+  <Resource name="jdbc/kramerius4" 
+            auth="Container" 
+            type="javax.sql.DataSource" 
+            initialSize="3" 
+            maxTotal="100"
+            maxIdle="30" 
+            maxWaitMillis="10000" 
+            username="${kramerius_connectionUser}" 
+            password="${kramerius_connectionPass}"
+            driverClassName="org.postgresql.Driver" 
+            url="${kramerius_connectionURL}" 
+            factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" 
+            removeAbandonedTimeout="60"
+            removeAbandoned="true"
+            logAbandoned="true"/>
 </Context>
 
