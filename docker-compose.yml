@@ -5,13 +5,15 @@ services:
     environment:
       - krameriusHost=http://kramerius:8080/search
     volumes:
-      - /tmp/k5init:/opt/app-root/src/.kramerius4/import
+      - k5init:/opt/app-root/src/.kramerius4/import
+    #volumes:
+    #  - /tmp/k5init:/opt/app-root/src/.kramerius4/import
   kramerius:
     image: moravianlibrary/kramerius
     ports:
       - "80:8080"
     volumes:
-      - /tmp/k5init:/opt/app-root/src/.kramerius4/import
+      - k5init:/opt/app-root/src/.kramerius4/import
     environment:
       - fedoraHost=http://fcrepo:8080/fedora
       - fedoraUser=fedoraAdmin
@@ -59,3 +61,5 @@ services:
       - POSTGRES_DB=riTriples
   solr:
     image: moravianlibrary/solr
+volumes:
+  k5init:
