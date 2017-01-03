@@ -31,12 +31,9 @@ RUN INSTALL_PKGS="tar zip" && \
 
 RUN  ln -sf /usr/local/gradle-$GRADLE_VERSION/bin/gradle /usr/local/bin/gradle
 
-ENV JAVA_HOME /usr/local/java/jdk1.8.0_101
-RUN curl -fsL --no-verbose http://ftp-devel.mzk.cz/jre/jdk-8u101-linux-x64.tar.gz -o /tmp/java.tar.gz && \
-    mkdir -p /usr/local/java && \
-    tar xzf /tmp/java.tar.gz --directory=/usr/local/java && \
-    rm /tmp/java.tar.gz
-ENV PATH $JAVA_HOME/bin:$PATH
+RUN curl -v -j -k -fsL -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.rpm > /tmp/jdk-8u112-linux-x64.rpm && \
+    rpm -Uvh /tmp/jdk-8u112-linux-x64.rpm && \
+rm /tmp/jdk-8u112-linux-x64.rpm
 
 WORKDIR $CATALINA_HOME
 
@@ -46,8 +43,12 @@ RUN  curl -fSL "$TOMCAT_TGZ_URL" -o tomcat.tar.gz && \
 	rm tomcat.tar.gz*
 
 RUN curl -fsL "$JDBC_DRIVER_DOWNLOAD_URL" -o $CATALINA_HOME/lib/postgresql-9.4.1208.jar
-RUN curl -fsL http://ftp-devel.mzk.cz/kramerius/master/kramerius/rightseditor.war -o $CATALINA_HOME/webapps/rightseditor.war
-RUN curl -fsL http://ftp-devel.mzk.cz/kramerius/master/kramerius/editor.war -o $CATALINA_HOME/webapps/editor.war
+
+RUN curl -fsL https://github.com/ceskaexpedice/kramerius/releases/download/v5.1.0/Editors-5.1.0.zip -o /tmp/editors.zip && \
+    unzip /tmp/editors.zip && \
+    mv Editors-5.1.0/* $CATALINA_HOME/webapps/ && \
+    rm /tmp/editors.zip
+
 ADD context.xml $CATALINA_HOME/conf/context.xml
 ADD search.xml $CATALINA_HOME/conf/Catalina/localhost/search.xml
 ADD web.xml $CATALINA_HOME/conf/web.xml
