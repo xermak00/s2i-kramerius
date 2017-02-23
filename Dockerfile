@@ -53,7 +53,6 @@ ADD context.xml $CATALINA_HOME/conf/context.xml
 ADD search.xml $CATALINA_HOME/conf/Catalina/localhost/search.xml
 ADD web.xml $CATALINA_HOME/conf/web.xml
 
-ADD modelfilter.jar .
 
 # Kramerius auth
 ENV JAAS_CONFIG=$CATALINA_HOME/conf/jaas.config

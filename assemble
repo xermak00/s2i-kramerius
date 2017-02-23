@@ -29,13 +29,10 @@ gradle --no-daemon :client:clean :client:build
 
 mkdir -p WEB-INF/lib
 
-#TODO remove (this library should be in distribution)
-cp $CATALINA_HOME/modelfilter.jar WEB-INF/lib
-
 # Parallel solr migration
 curl -fsL https://github.com/pavel-stastny/solrmigration/releases/download/1.0/solrmigration.jar -o WEB-INF/lib/solrmigration.jar
 
-zip ./search/build/libs/search.war WEB-INF/lib/modelfilter.jar WEB-INF/lib/solrmigration.jar
+zip ./search/build/libs/search.war WEB-INF/lib/solrmigration.jar
 
 mv ./search/build/libs/search.war $DEPLOY_DIR
 mv ./client/build/libs/client.war $DEPLOY_DIR
