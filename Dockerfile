@@ -44,10 +44,12 @@ RUN  curl -fSL "$TOMCAT_TGZ_URL" -o tomcat.tar.gz && \
 
 RUN curl -fsL "$JDBC_DRIVER_DOWNLOAD_URL" -o $CATALINA_HOME/lib/postgresql-9.4.1208.jar
 
-RUN curl -fsL https://github.com/ceskaexpedice/kramerius/releases/download/v5.1.0/Editors-5.1.0.zip -o /tmp/editors.zip && \
-    unzip /tmp/editors.zip && \
-    mv Editors-5.1.0/* $CATALINA_HOME/webapps/ && \
-    rm /tmp/editors.zip
+RUN curl -fsL  https://github.com/ceskaexpedice/kramerius/releases/download/v5.3.6/kramerius-5.3.6.zip -o /tmp/kramerius-5.3.6.zip && \
+    unzip /tmp/kramerius-5.3.6.zip -d editors  && \
+    mv editors/rightseditor.war $CATALINA_HOME/webapps/ && \
+    mv editors/editor.war $CATALINA_HOME/webapps/ && \
+    rm /tmp/kramerius-5.3.6.zip && \
+    rm -rf /tmp/editors
 
 ADD context.xml $CATALINA_HOME/conf/context.xml
 ADD search.xml $CATALINA_HOME/conf/Catalina/localhost/search.xml
