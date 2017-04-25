@@ -33,7 +33,7 @@ RUN  ln -sf /usr/local/gradle-$GRADLE_VERSION/bin/gradle /usr/local/bin/gradle
 
 RUN curl -v -j -k -fsL -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.rpm > /tmp/jdk-8u112-linux-x64.rpm && \
     rpm -Uvh /tmp/jdk-8u112-linux-x64.rpm && \
-rm /tmp/jdk-8u112-linux-x64.rpm
+    rm /tmp/jdk-8u112-linux-x64.rpm
 
 WORKDIR $CATALINA_HOME
 
@@ -63,6 +63,11 @@ ENV JAVA_OPTS -Djava.awt.headless=true -Dfile.encoding=UTF8  -Djava.security.aut
 
 ADD rewrite.config $CATALINA_HOME/conf/Catalina/localhost/
 ADD server.xml $CATALINA_HOME/conf/
+
+# Sentry
+ADD logging.properties $HOME/logging.properties
+RUN curl -fsL "http://search.maven.org/remotecontent?filepath=com/getsentry/raven/raven/8.0.2/raven-8.0.2.jar" -o $HOME/raven-8.0.2.jar
+
 
 COPY  ["run", "assemble", "save-artifacts", "usage", "/usr/libexec/s2i/"]
 

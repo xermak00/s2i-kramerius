@@ -6,8 +6,6 @@ services:
       - krameriusHost=http://kramerius:8080/search
     volumes:
       - k5init:/opt/app-root/src/.kramerius4/import
-    #volumes:
-    #  - /tmp/k5init:/opt/app-root/src/.kramerius4/import
   kramerius:
     image: moravianlibrary/kramerius
     ports:
@@ -15,6 +13,7 @@ services:
     volumes:
       - k5init:/opt/app-root/src/.kramerius4/import
     environment:
+      - JAVA_OPTS="-Dlogback.configurationFile=/usr/local/tomcat/webapps/search/WEB-INF/logback.xml"
       - fedoraHost=http://fcrepo:8080/fedora
       - fedoraUser=fedoraAdmin
       - fedoraPass=fedoraAdmin
@@ -29,6 +28,7 @@ services:
       - driver_fedora_mpt_jdbc_password=fedoraAdmin
       - solrHost=http://solr:8080/solr
       - applicationUrl=http://localhost:8080/search
+      #- SENTRY_DSN=*
   krameriusPostgres:
     image: "postgres:9.6"
     environment:

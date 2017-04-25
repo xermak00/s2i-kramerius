@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
   <Realm className="org.apache.catalina.realm.JAASRealm" appName="search" roleClassNames="cz.incad.kramerius.security.jaas.K4RolePrincipal" debug="99"/>
+  <Resources classname="org.apache.catalina.webresources.StandardRoot">
+	  <PreResources className="org.apache.catalina.webresources.FileResourceSet"
+            base="/opt/app-root/src/logging.properties"
+	    webAppMount="/WEB-INF/classes/logging.properties" />
+          <PreResources className="org.apache.catalina.webresources.FileResourceSet"
+            base="/opt/app-root/src/raven-8.0.2.jar"
+            webAppMount="/WEB-INF/lib/raven-8.0.2.jar" />
+  </Resources>
   <Resource name="jdbc/kramerius4" 
             auth="Container" 
             type="javax.sql.DataSource" 
