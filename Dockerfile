@@ -3,13 +3,13 @@ FROM openshift/base-centos7
 MAINTAINER Martin Rumanek <martin@rumanek.cz>
 ENV GRADLE_VERSION=2.12
 ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.0.39
+ENV TOMCAT_VERSION 8.0.38
 ENV CATALINA_HOME /usr/local/tomcat
 ENV JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 
 # temporary old version of Tomcat (cos https://github.com/ceskaexpedice/kramerius/issues/470)
 #ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
-ENV TOMCAT_TGZ_URL https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.38/bin/apache-tomcat-8.0.38.tar.gz
+ENV TOMCAT_TGZ_URL https://archive.apache.org/dist/tomcat/$TOMCAT_MAJOR/$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 ENV JDBC_DRIVER_DOWNLOAD_URL https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar
 ENV LANG en_US.UTF-8
@@ -31,9 +31,9 @@ RUN INSTALL_PKGS="tar zip" && \
 
 RUN  ln -sf /usr/local/gradle-$GRADLE_VERSION/bin/gradle /usr/local/bin/gradle
 
-RUN curl -v -j -k -fsL -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.rpm > /tmp/jdk-8u112-linux-x64.rpm && \
-    rpm -Uvh /tmp/jdk-8u112-linux-x64.rpm && \
-rm /tmp/jdk-8u112-linux-x64.rpm
+RUN curl -v -j -k -fsL -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm > /tmp/jdk-8u131-linux-x64.rpm && \
+    rpm -Uvh /tmp/jdk-8u131-linux-x64.rpm && \
+rm /tmp/jdk-8u131-linux-x64.rpm
 
 WORKDIR $CATALINA_HOME
 
