@@ -9,7 +9,7 @@ ENV JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 
 # temporary old version of Tomcat (cos https://github.com/ceskaexpedice/kramerius/issues/470)
 #ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
-ENV TOMCAT_TGZ_URL https://archive.apache.org/dist/tomcat/$TOMCAT_MAJOR/$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+ENV TOMCAT_TGZ_URL https://archive.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 ENV JDBC_DRIVER_DOWNLOAD_URL https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar
 ENV LANG en_US.UTF-8
