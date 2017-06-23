@@ -66,6 +66,8 @@ ADD server.xml $CATALINA_HOME/conf/
 
 COPY  ["run", "assemble", "save-artifacts", "usage", "/usr/libexec/s2i/"]
 
+ADD robotScript.sh /tmp/robotScript.sh
+
 RUN wget --no-verbose https://github.com/ceskaexpedice/kramerius/releases/download/v5.1.0/Installation-5.1.zip && \
     unzip -j Installation-5.1.zip Installation-5.1/fedora/* -d /tmp/fedora
 

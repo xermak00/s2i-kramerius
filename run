@@ -43,4 +43,6 @@ fi
 
 cp $CATALINA_HOME/conf/Catalina/localhost/search.xml $CATALINA_HOME/conf/Catalina/localhost/rightseditor.xml
 
+sh /tmp/robotScript.sh
+
 exec $CATALINA_HOME/bin/catalina.sh run
